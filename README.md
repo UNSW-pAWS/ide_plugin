@@ -11,8 +11,9 @@ Commands to download Yeoman and VS Code Extension Generator
 
 ## How to operate
 1. Open up the root folder of this project in VS Code
-2. Press F5 (Another VS Code will open up. This is to simulate the Extension running enviroment)
-3. Run the extension (Press "Ctrl" + "Shift" + "P") and Choose "Dependency Monitor"
+2. (For first time running of project else proceed to step 3) open up command palet and type ```npm i```
+3. Press F5 (Another VS Code will open up. This is to simulate the Extension running enviroment)
+4. Run the extension (Press "Ctrl" + "Shift" + "P") and Choose "Dependency Monitor"
 
 <!-- Please keep the following in case we want to publish our work in the future -->
 <!-- # paws-dependecy-checker README
