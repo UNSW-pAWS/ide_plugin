@@ -1,5 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+import fetch from 'node-fetch';
 import * as vscode from 'vscode';
 
 // this method is called when your extension is activated
@@ -23,6 +24,37 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 }
 
+
+const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON) =>{
+	let dependencies_list = Object.keys(dependencies);
+	let devdependencies_list = Object.keys(devDependencies);
+	await fetch("http://127.0.0.1:5000/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : dependencies_list , "level": 0}), headers:{"Content-Type": "application/json"}})
+		.then(r => {return r.json()})
+		.then(msg => {
+			console.log("dependencies");
+			for (let key in msg){
+				let list = msg[key];
+				if (list.length > 0){
+					// if exist display error message using the following line 
+		            vscode.window.showErrorMessage('Your dependency package ' +key+' is potentially vulnearble. Please visit our site www.google.com to find out more');
+				}
+			}
+		});
+
+	await fetch("http://127.0.0.1:5000/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : devdependencies_list , "level": 0}), headers:{"Content-Type": "application/json"}})
+		.then(r => {return r.json()})
+		.then(msg => {
+			console.log("devdependencies");
+			for (let key in msg){
+				let list = msg[key];
+				if (list.length > 0){
+					// if exist display error message using the following line 
+					vscode.window.showErrorMessage('Your devdependencies package ' +key+' is potentially vulnearble. Please visit our site www.google.com to find out more');
+				}
+			}
+		});
+}
+
 const dependencyMonitor = () =>{
 	if (vscode.workspace.workspaceFolders !== undefined){
 		let rootFolder = vscode.workspace.workspaceFolders[0];
@@ -44,12 +76,7 @@ const dependencyMonitor = () =>{
 	            // do check for keys before doing what i did
 	            let devDependencies = jsonText["devDependencies"];
 	            let dependencies = jsonText["dependencies"];
-	            console.log(devDependencies);
-	            console.log(dependencies);
-	            // check for vulnerbilities vulnerbilities
-	            
-	            // if exist display error message using the following line 
-	            vscode.window.showErrorMessage('Your package ... is');
+	            getVulnerbilities(devDependencies, dependencies);
 	        });
 	    });
 	}
