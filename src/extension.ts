@@ -36,7 +36,7 @@ const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON) =>{
 				let list = msg[key];
 				if (list.length > 0){
 					// if exist display error message using the following line 
-		            vscode.window.showErrorMessage('Your dependency package ' +key+' is potentially vulnearble. Please visit our site www.google.com to find out more');
+		            vscode.window.showErrorMessage('Your dependency package ' +key+' is potentially vulnearble. Please visit our site http://www.google.com to find out more');
 				}
 			}
 		});
@@ -49,7 +49,7 @@ const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON) =>{
 				let list = msg[key];
 				if (list.length > 0){
 					// if exist display error message using the following line 
-					vscode.window.showErrorMessage('Your devdependencies package ' +key+' is potentially vulnearble. Please visit our site www.google.com to find out more');
+					vscode.window.showErrorMessage('Your devdependencies package ' +key+' is potentially vulnearble. Please visit our site http://www.google.com to find out more');
 				}
 			}
 		});
