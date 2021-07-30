@@ -1,3 +1,4 @@
+# Disclaimer (This is not raw live on VSCode Marketplace so to run this user will have to follow the steps as a developer)
 # For operating purpose (For Developers)
 
 ## Requirements
@@ -8,7 +9,6 @@
 Commands to download Yeoman and VS Code Extension Generator
 
 ```npm install -g yo generator-code```
-
 ## How to operate
 1. Open up the root folder of this project in VS Code
 (For first time running of project please proceed to step 4)

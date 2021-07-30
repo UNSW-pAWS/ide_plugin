@@ -9,7 +9,6 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "paws-dependecy-checker" is now active!');
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
@@ -28,31 +27,32 @@ export function activate(context: vscode.ExtensionContext) {
 const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON) =>{
 	let dependencies_list = Object.keys(dependencies);
 	let devdependencies_list = Object.keys(devDependencies);
-	await fetch("http://127.0.0.1:5000/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : dependencies_list , "level": 0}), headers:{"Content-Type": "application/json"}})
+	dependencies_list.forEach(async (item, _) =>{
+		await fetch("http://dependency.eba-suunxfcc.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}})
 		.then(r => {return r.json()})
 		.then(msg => {
-			console.log("dependencies");
 			for (let key in msg){
-				let list = msg[key];
+				let list = msg[key][1];
 				if (list.length > 0){
-					// if exist display error message using the following line 
-		            vscode.window.showErrorMessage('Your dependency package ' +key+' is potentially vulnearble. Please visit our site http://www.google.com to find out more');
+					vscode.window.showErrorMessage('Your dependency packages ' +key+' is potentially vulnearble. Please visit our site http://www.google.com to find out more');
 				}
 			}
 		});
+	});
+	
 
-	await fetch("http://127.0.0.1:5000/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : devdependencies_list , "level": 0}), headers:{"Content-Type": "application/json"}})
+	devdependencies_list.forEach(async (item, _) =>{
+		await fetch("http://dependency.eba-suunxfcc.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}})
 		.then(r => {return r.json()})
 		.then(msg => {
-			console.log("devdependencies");
 			for (let key in msg){
-				let list = msg[key];
+				let list = msg[key][1];
 				if (list.length > 0){
-					// if exist display error message using the following line 
-					vscode.window.showErrorMessage('Your devdependencies package ' +key+' is potentially vulnearble. Please visit our site http://www.google.com to find out more');
+					vscode.window.showErrorMessage('Your devdependency packages ' +key+' is potentially vulnearble. Please visit our site http://www.google.com to find out more');
 				}
 			}
 		});
+	});
 }
 
 const dependencyMonitor = () =>{
