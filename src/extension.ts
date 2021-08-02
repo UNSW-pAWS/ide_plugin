@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import fetch from 'node-fetch';
 import * as vscode from 'vscode';
+let fs = require("fs");
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -24,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 
-const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON) =>{
+const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON, foldername: string) =>{
 	let dependencies_list = Object.keys(dependencies);
 	let devdependencies_list = Object.keys(devDependencies);
 	dependencies_list.forEach(async (item, _) =>{
@@ -34,7 +35,15 @@ const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON) =>{
 			for (let key in msg){
 				let list = msg[key][1];
 				if (list.length > 0){
-					vscode.window.showErrorMessage('Your dependency packages ' +key+' is potentially vulnearble. Please visit our site http://www.google.com to find out more');
+					const file = key+'_vulnearbility.json';
+					const file_path = vscode.Uri.file(foldername + '/'+ file );
+					const wsedit = new vscode.WorkspaceEdit();
+					wsedit.createFile(file_path, {ignoreIfExists: true});
+					vscode.workspace.applyEdit(wsedit);
+					let content:{[package_name:string] : typeof list;} = {};
+					content[key] = msg[key][1];
+					fs.writeFileSync(file_path.path,  JSON.stringify(content), 'utf8');
+					vscode.window.showErrorMessage('Your dependency packages ' +key+' is potentially vulnearble. Please go to '+ file + ' to find out more');
 				}
 			}
 		});
@@ -48,7 +57,15 @@ const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON) =>{
 			for (let key in msg){
 				let list = msg[key][1];
 				if (list.length > 0){
-					vscode.window.showErrorMessage('Your devdependency packages ' +key+' is potentially vulnearble. Please visit our site http://www.google.com to find out more');
+					const file = key+'_vulnearbility.json';
+					const file_path = vscode.Uri.file(foldername + '/'+ file );
+					const wsedit = new vscode.WorkspaceEdit();
+					wsedit.createFile(file_path, {ignoreIfExists: true});
+					vscode.workspace.applyEdit(wsedit);
+					let content:{[package_name:string] : typeof list;} = {};
+					content[key] = msg[key][1];
+					fs.writeFileSync(file_path.path,  JSON.stringify(content), 'utf8');
+					vscode.window.showErrorMessage('Your devdependency packages ' +key+' is potentially vulnearble. Please go to '+ file + ' to find out more');
 				}
 			}
 		});
@@ -76,7 +93,7 @@ const dependencyMonitor = () =>{
 	            // do check for keys before doing what i did
 	            let devDependencies = jsonText["devDependencies"];
 	            let dependencies = jsonText["dependencies"];
-	            getVulnerbilities(devDependencies, dependencies);
+	            getVulnerbilities(devDependencies, dependencies, rootFolder.uri.fsPath);
 	        });
 	    });
 	}
