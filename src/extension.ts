@@ -29,9 +29,9 @@ const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON, fold
 	let dependencies_list = Object.keys(dependencies);
 	let devdependencies_list = Object.keys(devDependencies);
 	dependencies_list.forEach(async (item, _) =>{
-		await fetch("http://dependency.eba-5uazmhpj.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}})
-		.then(r => {return r.json()})
-		.then(msg => {
+		let r = await fetch("http://dependency.eba-5uazmhpj.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}});
+		if (r.status == 200){
+			let msg = await r.json();
 			for (let key in msg){
 				let list = msg[key][1];
 				if (list.length > 0){
@@ -46,14 +46,14 @@ const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON, fold
 					vscode.window.showErrorMessage('Your dependency packages ' +key+' is potentially vulnearble. Please go to '+ file + ' to find out more');
 				}
 			}
-		});
+		}
 	});
 	
 
 	devdependencies_list.forEach(async (item, _) =>{
-		await fetch("http://dependency.eba-5uazmhpj.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}})
-		.then(r => {return r.json()})
-		.then(msg => {
+		let r = await fetch("http://dependency.eba-5uazmhpj.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}});
+		if (r.status == 200){
+			let msg = await r.json();
 			for (let key in msg){
 				let list = msg[key][1];
 				if (list.length > 0){
@@ -68,7 +68,7 @@ const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON, fold
 					vscode.window.showErrorMessage('Your devdependency packages ' +key+' is potentially vulnearble. Please go to '+ file + ' to find out more');
 				}
 			}
-		});
+		}
 	});
 }
 
@@ -91,8 +91,14 @@ const dependencyMonitor = () =>{
 	            let text = document.getText();
 	            let jsonText = JSON.parse(text);
 	            // do check for keys before doing what i did
-	            let devDependencies = jsonText["devDependencies"];
-	            let dependencies = jsonText["dependencies"];
+	            let devDependencies = [];
+	            if (jsonText.hasOwnProperty("devDependencies")){
+	                devDependencies = jsonText["devDependencies"];
+	            }
+	            let dependencies = [];
+	            if (jsonText.hasOwnProperty("dependencies")){
+	                dependencies = jsonText["dependencies"];
+	            }
 	            getVulnerbilities(devDependencies, dependencies, rootFolder.uri.fsPath);
 	        });
 	    });
