@@ -29,7 +29,7 @@ const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON, fold
 	let dependencies_list = Object.keys(dependencies);
 	let devdependencies_list = Object.keys(devDependencies);
 	dependencies_list.forEach(async (item, _) =>{
-		let r = await fetch("http://dependency.eba-5uazmhpj.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}});
+		let r = await fetch("http://paws-backend.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}});
 		if (r.status == 200){
 			let msg = await r.json();
 			for (let key in msg){
@@ -51,7 +51,7 @@ const getVulnerbilities = async (devDependencies: JSON, dependencies: JSON, fold
 	
 
 	devdependencies_list.forEach(async (item, _) =>{
-		let r = await fetch("http://dependency.eba-5uazmhpj.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}});
+		let r = await fetch("http://paws-backend.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}});
 		if (r.status == 200){
 			let msg = await r.json();
 			for (let key in msg){
