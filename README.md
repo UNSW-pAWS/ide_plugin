@@ -1,12 +1,29 @@
-# Disclaimer (This is not raw live on VSCode Marketplace so to run this user will have to follow the steps as a developer)
-# For operating purpose (For Developers)
+# pAWS | Visual Studio Code Plugin
 
-## Requirements
+<br/>
+
+<p align="center">
+  <img width="200" src="./static/logo.png">
+</p>
+
+
+<br/>
+<br/>
+
+This plugin instantly informs users about critical vulnerabilities impacting their code.
+
+## For operating purpose (For Developers)
+#### Disclaimer: This is not raw live on VSCode Marketplace so to run this user will have to follow the steps as a developer
+
+### Requirements
 1. Node.js
 2. Yeoman
 3. VS Code Extension Generator
 
 Commands to download Yeoman and VS Code Extension Generator
+```
+npm install -g yo generator-code
+```
 
 ```npm install -g yo generator-code```
 
