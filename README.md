@@ -9,6 +9,11 @@
 Commands to download Yeoman and VS Code Extension Generator
 
 ```npm install -g yo generator-code```
+
+## Notes
+
+The current api endpoint the extension query from is http://paws-backend.ap-southeast-2.elasticbeanstalk.com/threat/search. This maybe taken down hence please change line 32 and 54 from ```let r = await fetch("http://paws-backend.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}});```  to ```let r = await fetch("http://127.0.0.1:5000/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}});``` and run our backend at https://github.com/UNSW-pAWS/webapp-backend .
+
 ## How to operate
 1. Open up the root folder of this project in VS Code
 (For first time running of project please proceed to step 4)
