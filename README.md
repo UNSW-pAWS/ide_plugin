@@ -25,21 +25,29 @@ Commands to download Yeoman and VS Code Extension Generator
 npm install -g yo generator-code
 ```
 
-```npm install -g yo generator-code```
-
 ## Notes
 
 The current api endpoint the extension query from is http://paws-backend.ap-southeast-2.elasticbeanstalk.com/threat/search. This maybe taken down hence please change line 32 and 54 from <br/>
-```let r = await fetch("http://paws-backend.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}});``` <br/> 
+```
+let r = await fetch("http://paws-backend.ap-southeast-2.elasticbeanstalk.com/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}});
+``` <br/> 
 to <br/>
-```let r = await fetch("http://127.0.0.1:5000/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}});```<br/> 
+```
+let r = await fetch("http://127.0.0.1:5000/threat/search", {method:"POST", body:JSON.stringify({"package_manager_type":"npm", "package_list" : [item] , "level": 0, "severity": ["CRITICAL"], "date": "None"}), headers:{"Content-Type": "application/json"}});
+```<br/> 
 and ensure the backend located at https://github.com/UNSW-pAWS/webapp-backend is up and running before proceeding to how to operate.
 
 ## How to operate
 1. Open up the root folder of this project in VS Code
 (For first time running of project please proceed to step 4)
-2. open up command line and type ```npm i```
-3. in your command line type ```npm run watch```
+2. open up command line and type 
+```
+npm i
+```
+3. in your command line type 
+```
+npm run watch
+```
 4. Open up ```src/extension.ts``` and Press ```F5``` (Another VS Code will open up. This is to simulate the Extension running enviroment) may need to choose ```VS Code Extension Development``` if running for first time
 5. Run the extension (Press "Ctrl" + "Shift" + "P") and Choose "Dependency Monitor"
 
