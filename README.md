@@ -1,4 +1,4 @@
-# pAWS | Visual Studio Code Plugin
+# pAWS | Visual Studio Code Extension
 
 <br/>
 
@@ -10,7 +10,7 @@
 <br/>
 <br/>
 
-This plugin instantly informs users about critical vulnerabilities impacting their code.
+This entension instantly informs users about critical vulnerabilities impacting their code.
 
 <br />
 
