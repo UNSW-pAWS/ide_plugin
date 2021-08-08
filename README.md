@@ -12,6 +12,16 @@
 
 This plugin instantly informs users about critical vulnerabilities impacting their code.
 
+<br />
+
+## Table of Contents
+1. [Operating guide](#For-operating-purpose-(For-Developers))
+    1. [Requirements](#Requirements)
+    2. [Notes](#Notes)
+2. [How to operate](#How-to-operate)
+
+<br />
+
 ## For operating purpose (For Developers)
 #### Disclaimer: This is not raw live on VSCode Marketplace so to run this user will have to follow the steps as a developer
 
